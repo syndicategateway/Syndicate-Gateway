@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Syndicate Gateway — সম্পূর্ণ সেটআপ গাইড</title>
+<style>
+:root{--bg:#0a0b0e;--card:#13151a;--border:rgba(255,255,255,.09);--text:#e8eaf0;--muted:#8a90a0;--accent:#22d3ee;--green:#34d399;--red:#f87171;--yellow:#fbbf24;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,'Segoe UI',sans-serif;line-height:1.75;padding:1.2rem;max-width:760px;margin:0 auto;font-size:16px;}
+h1{font-size:1.6rem;line-height:1.3;margin-bottom:.4rem;background:linear-gradient(135deg,#22d3ee,#8b5cf6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.sub{color:var(--muted);font-size:.92rem;margin-bottom:1.5rem;}
+h2{font-size:1.15rem;margin:2rem 0 .8rem;padding:.7rem 1rem;background:var(--card);border-left:3px solid var(--accent);border-radius:8px;}
+h3{font-size:1rem;margin:1.3rem 0 .5rem;color:var(--accent);}
+p,li{font-size:.94rem;}
+ul,ol{padding-left:1.4rem;margin:.5rem 0;}
+li{margin:.4rem 0;}
+code{background:rgba(34,211,238,.1);color:var(--accent);padding:.15rem .45rem;border-radius:5px;font-family:'Geist Mono',monospace;font-size:.85rem;word-break:break-all;}
+.box{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1rem 1.2rem;margin:1rem 0;}
+.warn{border-left:3px solid var(--yellow);background:rgba(251,191,36,.06);}
+.danger{border-left:3px solid var(--red);background:rgba(248,113,113,.06);}
+.ok{border-left:3px solid var(--green);background:rgba(52,211,153,.06);}
+.step-num{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;background:var(--accent);color:#000;border-radius:50%;font-weight:700;font-size:.85rem;margin-right:.5rem;}
+.file{display:flex;justify-content:space-between;padding:.6rem .9rem;border-bottom:1px solid var(--border);font-size:.9rem;}
+.file:last-child{border:none;}
+.file .n{font-family:monospace;color:var(--accent);}
+.file .d{color:var(--muted);font-size:.82rem;text-align:right;}
+.check{list-style:none;padding-left:0;}
+.check li{padding-left:1.8rem;position:relative;}
+.check li::before{content:'☐';position:absolute;left:0;color:var(--accent);font-size:1.1rem;}
+b{color:#fff;}
+hr{border:none;border-top:1px solid var(--border);margin:2rem 0;}
+.tag{display:inline-block;font-size:.7rem;background:rgba(34,211,238,.12);color:var(--accent);padding:.1rem .5rem;border-radius:100px;margin-left:.4rem;}
+</style>
+</head>
+<body>
+
+<h1>Syndicate Gateway<br/>সম্পূর্ণ সেটআপ গাইড</h1>
+<p class="sub">একদম শূন্য থেকে সাইট লাইভ করা পর্যন্ত — প্রতিটা ধাপ। ক্রম অনুযায়ী করুন, কোনোটা বাদ দেবেন না।</p>
+
+<div class="box ok">
+<b>মোট সময়:</b> ২০–৩০ মিনিট<br/>
+<b>খরচ:</b> ০ টাকা (সব ফ্রি)<br/>
+<b>যা লাগবে:</b> একটা GitHub অ্যাকাউন্ট, একটা Appwrite অ্যাকাউন্ট, আর এই ফোল্ডারের ফাইলগুলো।
+</div>
+
+<h2>📦 এই প্যাকেজে যা আছে</h2>
+<div class="box">
+<div class="file"><span class="n">index.html</span><span class="d">মূল ল্যান্ডিং পেজ</span></div>
+<div class="file"><span class="n">signup.html</span><span class="d">অ্যাকাউন্ট তৈরি</span></div>
+<div class="file"><span class="n">login.html</span><span class="d">লগইন</span></div>
+<div class="file"><span class="n">dashboard.html</span><span class="d">ড্যাশবোর্ড (লগইন লাগে)</span></div>
+<div class="file"><span class="n">404.html</span><span class="d">ভুল লিংক → হোমে ফেরত</span></div>
+<div class="file"><span class="n">CNAME</span><span class="d">ডোমেইন সংযোগ</span></div>
+<div class="file"><span class="n">.nojekyll</span><span class="d">Pages ঠিকমতো চলার জন্য</span></div>
+</div>
+<div class="box warn">
+⚠️ <b>CNAME</b> ও <b>.nojekyll</b> — এই দুটো বিশেষ ফাইল (এক্সটেনশন নেই / লুকানো)। অনেকে এগুলো আপলোড করতে ভুলে যায় — তখনই সাইট ভাঙে। এগুলো অবশ্যই লাগবে।
+</div>
+
+<hr/>
+
+<h2><span class="step-num">1</span>GitHub অ্যাকাউন্ট ও Repository</h2>
+
+<h3>১.১ — অ্যাকাউন্ট (আগে থাকলে বাদ দিন)</h3>
+<ol>
+<li><code>github.com</code> এ যান → Sign up</li>
+<li>ইমেইল, পাসওয়ার্ড, ইউজারনেম দিয়ে অ্যাকাউন্ট খুলুন</li>
+</ol>
+
+<h3>১.২ — নতুন Repository বানান</h3>
+<ol>
+<li>উপরে ডানে <b>+</b> → <b>New repository</b></li>
+<li>Repository name: <code>Syndicate-Gateway</code></li>
+<li><b>Public</b> সিলেক্ট করুন <span class="tag">জরুরি</span></li>
+<li>বাকি সব খালি রাখুন (README/gitignore টিক দেবেন না)</li>
+<li><b>Create repository</b> চাপুন</li>
+</ol>
+<div class="box danger">
+🚫 <b>Public</b> না করলে GitHub Pages ফ্রিতে চলবে না → সাইট 404 দেখাবে। প্রাইভেট repo + Pages একসাথে পেতে GitHub Pro (পেইড) লাগে।
+</div>
+
+<hr/>
+
+<h2><span class="step-num">2</span>ফাইল আপলোড</h2>
+<ol>
+<li>নতুন repo-র পেজে <b>"uploading an existing file"</b> লিংক চাপুন<br/>(অথবা <b>Add file → Upload files</b>)</li>
+<li>এই ফোল্ডারের <b>৭টা ফাইল</b> সিলেক্ট করুন:<br/>
+<code>index.html</code> <code>signup.html</code> <code>login.html</code> <code>dashboard.html</code> <code>404.html</code> <code>CNAME</code> <code>.nojekyll</code></li>
+<li>⚠️ সরাসরি repo-র <b>root</b>-এ — কোনো ফোল্ডারের ভেতরে নয়</li>
+<li>নিচে <b>Commit changes</b> চাপুন</li>
+</ol>
+
+<div class="box warn">
+📱 <b>ফোনে .nojekyll বা CNAME আপলোড না হলে</b> — আলাদা করে বানান:<br/><br/>
+<b>CNAME বানাতে:</b> Add file → Create new file → নাম: <code>CNAME</code> → ভেতরে লিখুন: <code>syndicategateway.com</code> → Commit<br/><br/>
+<b>.nojekyll বানাতে:</b> Add file → Create new file → নাম: <code>.nojekyll</code> → ভেতরে কিছু লিখবেন না (খালি) → Commit
+</div>
+
+<hr/>
+
+<h2><span class="step-num">3</span>GitHub Pages চালু <span class="tag">সবচেয়ে জরুরি</span></h2>
+<p>এই ধাপটাই আগে বাদ পড়ায় সাইট 404 দেখাচ্ছিল। মন দিয়ে করুন।</p>
+<ol>
+<li>repo-তে উপরে <b>Settings</b> (⚙️) চাপুন</li>
+<li>বাঁ মেনুতে নিচে স্ক্রল করে <b>Pages</b> চাপুন</li>
+<li><b>Source:</b> "Deploy from a branch" সিলেক্ট করুন</li>
+<li><b>Branch:</b> <code>main</code> সিলেক্ট করুন</li>
+<li><b>Folder:</b> <code>/ (root)</code> সিলেক্ট করুন</li>
+<li><b>Save</b> চাপুন</li>
+<li>একটু নিচে <b>Custom domain</b> বক্সে লিখুন: <code>syndicategateway.com</code></li>
+<li><b>Save</b> চাপুন</li>
+<li><b>Enforce HTTPS</b> অপশন এলে টিক দিন (DNS চেক হতে কিছু সময় লাগতে পারে)</li>
+</ol>
+<div class="box ok">
+✅ ঠিকভাবে হলে কিছুক্ষণ পর উপরে লেখা আসবে: <b>"Your site is live at https://syndicategateway.com"</b>
+</div>
+
+<hr/>
+
+<h2><span class="step-num">4</span>ডোমেইন DNS চেক <span class="tag">যদি দরকার হয়</span></h2>
+<p>আপনার <code>syndicategateway.com</code> ডোমেইনটা যেখান থেকে কিনেছেন (GoDaddy, Namecheap ইত্যাদি), সেখানে DNS রেকর্ড GitHub-এর দিকে পয়েন্ট করা থাকতে হবে। আগে যেহেতু সাইট চলছিল, এটা সম্ভবত করাই আছে। যদি ধাপ ৩-এর পরও ডোমেইন কাজ না করে, ডোমেইন প্রোভাইডারে এই রেকর্ডগুলো থাকা দরকার:</p>
+<div class="box">
+<b>A রেকর্ড</b> (host: @) → এই ৪টা IP:<br/>
+<code>185.199.108.153</code><br/>
+<code>185.199.109.153</code><br/>
+<code>185.199.110.153</code><br/>
+<code>185.199.111.153</code><br/><br/>
+<b>CNAME রেকর্ড</b> (host: www) → <code>syndicategateway.github.io</code>
+</div>
+
+<hr/>
+
+<h2><span class="step-num">5</span>Appwrite সংযোগ চেক</h2>
+<p>signup/login কাজ করার জন্য Appwrite-এ আপনার ডোমেইন যোগ থাকতে হবে। (Project ID ও Endpoint কোডেই বসানো আছে — নতুন কিছু লাগবে না।)</p>
+<ol>
+<li><code>cloud.appwrite.io</code> → আপনার project খুলুন</li>
+<li>নিচে <b>Integrations → Platforms</b></li>
+<li>এই দুটো hostname আছে কিনা দেখুন:<br/>
+<code>syndicategateway.com</code><br/>
+<code>www.syndicategateway.com</code></li>
+<li>না থাকলে: <b>Add platform → Web</b> → hostname দিন → Create</li>
+</ol>
+<div class="box">
+কোডে বসানো সেটিং (পরিবর্তনের দরকার নেই):<br/>
+Endpoint: <code>https://sgp.cloud.appwrite.io/v1</code><br/>
+Project ID: <code>6a271e0d00298cb271d8</code>
+</div>
+
+<hr/>
+
+<h2><span class="step-num">6</span>টেস্ট</h2>
+<ol>
+<li>ধাপ ৩-এর পর <b>৫–১০ মিনিট অপেক্ষা</b> করুন (Pages তৈরি হতে সময় লাগে)</li>
+<li>Chrome-এ <b>incognito ট্যাব</b> খুলুন (⋮ → New incognito tab) — পুরনো cache এড়াতে</li>
+<li><code>syndicategateway.com</code> খুলুন → ল্যান্ডিং পেজ আসবে</li>
+<li><b>Start Building</b> চাপুন → signup পেজ</li>
+<li>নাম + ইমেইল + পাসওয়ার্ড (<b>৮+ অক্ষর</b>) → <b>Create account</b></li>
+<li>সফল হলে → dashboard-এ যাবে, "Welcome, [নাম]" দেখাবে</li>
+<li>যাচাই: Appwrite → <b>Auth</b> সেকশনে নতুন ইউজার দেখা যাবে 🎉</li>
+</ol>
+
+<hr/>
+
+<h2>✅ চূড়ান্ত চেকলিস্ট</h2>
+<div class="box">
+<ul class="check">
+<li>repo নাম <code>Syndicate-Gateway</code>, <b>Public</b></li>
+<li>৭টা ফাইল root-এ আপলোড (CNAME ও .nojekyll সহ)</li>
+<li>Settings → Pages → Source = <code>main</code> / root, Saved</li>
+<li>Custom domain = <code>syndicategateway.com</code>, Saved</li>
+<li>"Your site is live at..." লেখা দেখা যাচ্ছে</li>
+<li>Appwrite-এ দুটো hostname যোগ করা</li>
+<li>incognito-তে সাইট খুলছে ও signup কাজ করছে</li>
+</ul>
+</div>
+
+<hr/>
+
+<h2>🔧 সমস্যা হলে</h2>
+<div class="box danger">
+<b>404 দেখায়:</b><br/>
+→ repo Public আছে তো? (ধাপ ১)<br/>
+→ Settings → Pages-এ Source = main branch সেট আছে তো? (ধাপ ৩)<br/>
+→ CNAME ফাইল আছে তো, ভেতরে ঠিক <code>syndicategateway.com</code>?<br/>
+→ ৫–১০ মিনিট অপেক্ষা করেছেন তো?
+</div>
+<div class="box warn">
+<b>সাদা/খালি পেজ:</b><br/>
+→ সব ফাইল root-এ আছে তো, ফোল্ডারের ভেতরে নয়?<br/>
+→ .nojekyll ফাইল আপলোড হয়েছে তো?
+</div>
+<div class="box warn">
+<b>signup-এ লাল error:</b><br/>
+→ Appwrite-এ hostname যোগ আছে তো? (ধাপ ৫)<br/>
+→ error-এ "CORS" থাকলে — hostname ঠিক মেলেনি, ধাপ ৫ আবার দেখুন<br/>
+→ পাসওয়ার্ড ৮ অক্ষরের কম দিলে error দেবে — বড় পাসওয়ার্ড দিন
+</div>
+
+<hr/>
+
+<div class="box">
+<b>মনে রাখবেন:</b> এটা একটা অ্যাকাউন্ট সিস্টেম (signup/login/dashboard) — ডেটাবেস ছাড়া। ব্যালেন্স/ট্রানজেকশন এখন স্যাম্পল ডেটা। ভবিষ্যতে আসল ট্রানজেকশন সেভ করতে চাইলে Appwrite Database যোগ করতে হবে — সেটা আলাদা ধাপ।
+<br/><br/>
+যেকোনো ধাপে আটকে গেলে — যে স্ক্রিনে আটকেছেন তার স্ক্রিনশট দিন, সমাধান বলে দেওয়া হবে।
+</div>
+
+<p style="text-align:center;color:var(--muted);font-size:.8rem;margin-top:2rem;">Syndicate Gateway · সেটআপ গাইড</p>
+
+</body>
+</html>

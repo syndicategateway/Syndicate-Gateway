@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Syndicate Gateway — Global Payments Redefined</title>
+<meta name="theme-color" content="#000000"/>
+<meta name="description" content="A high-performance payments gateway for instant transactions, diverse verticals, and emerging markets. One integration. Every market. Live in 7 days."/>
+<!-- FAVICON (SVG logo — shows in browser tab & bookmarks) -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='10' fill='%23000'/%3E%3Cdefs%3E%3ClinearGradient id='b' x1='0' y1='0' x2='48' y2='48' gradientUnits='userSpaceOnUse'%3E%3Cstop stop-color='%2322d3ee'/%3E%3Cstop offset='1' stop-color='%238b5cf6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='5' y='5' width='38' height='38' rx='11' fill='none' stroke='url(%23b)' stroke-width='2.5' stroke-dasharray='5 4'/%3E%3Crect x='13' y='13' width='22' height='22' rx='6' fill='%231a2535' stroke='%2322d3ee' stroke-width='1.5'/%3E%3Cpath d='M18 24.5 L22 28.5 L30 19' fill='none' stroke='%2322d3ee' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"/>
+<!-- Apple touch icon (home-screen shortcut on iOS) -->
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='10' fill='%23000'/%3E%3Cdefs%3E%3ClinearGradient id='b' x1='0' y1='0' x2='48' y2='48' gradientUnits='userSpaceOnUse'%3E%3Cstop stop-color='%2322d3ee'/%3E%3Cstop offset='1' stop-color='%238b5cf6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='5' y='5' width='38' height='38' rx='11' fill='none' stroke='url(%23b)' stroke-width='2.5' stroke-dasharray='5 4'/%3E%3Crect x='13' y='13' width='22' height='22' rx='6' fill='%231a2535' stroke='%2322d3ee' stroke-width='1.5'/%3E%3Cpath d='M18 24.5 L22 28.5 L30 19' fill='none' stroke='%2322d3ee' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --void:#000000;--deep:#020204;--surface:#080a0f;--surface2:#0e1117;
+  --border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.1);
+  --text:#f0f2f5;--muted:#4a5060;--muted2:#6b7280;
+  --accent:#0ea5e9;--accent-dim:rgba(14,165,233,0.12);--accent-glow:rgba(14,165,233,0.25);
+  --green:#10b981;--green-dim:rgba(16,185,129,0.1);--purple:#8b5cf6;
+  --r:8px;--r2:12px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{font-size:16px;scroll-behavior:smooth;-webkit-font-smoothing:antialiased;}
+body{background:var(--void);color:var(--text);font-family:'Geist',sans-serif;font-weight:300;overflow-x:hidden;line-height:1.6;}
+@media(hover:hover) and (pointer:fine){body{cursor:none;}}
+@media(hover:none),(pointer:coarse){.cursor,.cursor-ring{display:none!important;}}
+.cursor{position:fixed;width:8px;height:8px;background:var(--accent);border-radius:50%;pointer-events:none;z-index:9999;transition:transform .15s ease,opacity .15s ease;transform:translate(-50%,-50%);}
+.cursor-ring{position:fixed;width:32px;height:32px;border:1px solid rgba(14,165,233,0.4);border-radius:50%;pointer-events:none;z-index:9998;transition:transform .4s cubic-bezier(.23,1,.32,1),opacity .3s;transform:translate(-50%,-50%);}
+body:hover .cursor{opacity:1;}
+
+/* LOGO */
+.brand-logo{display:flex;align-items:center;gap:.7rem;text-decoration:none;}
+.brand-logo svg{flex-shrink:0;}
+.brand-name{display:flex;flex-direction:column;line-height:.95;}
+.brand-name .b1{font-family:'Geist',sans-serif;font-weight:700;letter-spacing:.04em;color:#fff;}
+.brand-name .b2{font-family:'Geist',sans-serif;font-weight:300;letter-spacing:.16em;color:var(--muted2);}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(1.25rem,4vw,3rem);background:rgba(0,0,0,0.7);backdrop-filter:blur(24px) saturate(180%);border-bottom:1px solid var(--border);transition:height .3s;}
+nav .brand-logo svg{width:34px;height:34px;}
+nav .brand-name .b1{font-size:.82rem;}
+nav .brand-name .b2{font-size:.62rem;}
+.nav-links{display:flex;gap:2rem;list-style:none;position:absolute;left:50%;transform:translateX(-50%);}
+.nav-links a{font-size:.75rem;font-weight:400;letter-spacing:.02em;color:var(--muted2);text-decoration:none;transition:color .2s;}
+.nav-links a:hover{color:var(--text);}
+.nav-r{display:flex;gap:.75rem;align-items:center;}
+.btn-nav{padding:.45rem 1.1rem;font-family:'Geist',sans-serif;font-size:.72rem;font-weight:500;letter-spacing:.01em;border-radius:6px;cursor:none;transition:all .2s;text-decoration:none;display:inline-flex;align-items:center;gap:.4rem;}
+.btn-ghost{background:transparent;border:1px solid var(--border2);color:var(--muted2);}
+.btn-ghost:hover{border-color:rgba(255,255,255,0.2);color:var(--text);}
+.btn-solid{background:var(--text);color:#000;border:none;}
+.btn-solid:hover{background:rgba(240,242,245,.85);}
+.ham{display:none;flex-direction:column;gap:4px;background:none;border:none;cursor:none;padding:4px;}
+.ham span{display:block;width:20px;height:1.5px;background:var(--muted2);border-radius:2px;transition:all .25s;}
+.ham.open span:nth-child(1){transform:translateY(5.5px) rotate(45deg);}
+.ham.open span:nth-child(2){opacity:0;}
+.ham.open span:nth-child(3){transform:translateY(-5.5px) rotate(-45deg);}
+.mob-menu{display:none;flex-direction:column;position:fixed;top:64px;left:0;right:0;background:rgba(0,0,0,.97);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);z-index:199;padding:2rem;gap:1rem;}
+.mob-menu.show{display:flex;}
+.mob-menu a{font-size:.85rem;color:var(--muted2);text-decoration:none;padding:.6rem 0;border-bottom:1px solid var(--border);transition:color .2s;}
+.mob-menu a:hover{color:var(--text);}
+.mob-menu .btn-solid{width:100%;text-align:center;margin-top:.5rem;padding:.8rem;font-size:.8rem;}
+@media(max-width:768px){.nav-links,.btn-ghost{display:none;}.ham{display:flex;}}
+
+body::before{content:'';position:fixed;inset:0;z-index:1;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");pointer-events:none;opacity:.4;}
+
+.hero{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:clamp(5rem,10vw,8rem) clamp(1.25rem,5vw,3rem) clamp(3rem,8vw,5rem);position:relative;overflow:hidden;}
+.hero-aurora{position:absolute;inset:0;z-index:0;background:radial-gradient(ellipse 70% 50% at 50% -10%,rgba(14,165,233,.08) 0%,transparent 60%),radial-gradient(ellipse 50% 40% at 15% 60%,rgba(139,92,246,.05) 0%,transparent 50%),radial-gradient(ellipse 40% 30% at 85% 70%,rgba(16,185,129,.04) 0%,transparent 50%);}
+.hero-grid{position:absolute;inset:0;z-index:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:80px 80px;mask-image:radial-gradient(ellipse 90% 70% at 50% 0%,black 0%,transparent 70%);}
+.hero-content{position:relative;z-index:2;width:100%;}
+.hero-emblem{margin:0 auto 2rem;width:clamp(64px,12vw,88px);animation:fadeup .8s both;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:.6rem;font-family:'Geist Mono',monospace;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);border:1px solid rgba(14,165,233,.2);background:rgba(14,165,233,.06);padding:.35rem 1rem;border-radius:100px;margin-bottom:2rem;animation:fadeup .8s .05s both;}
+.hero-eyebrow-dot{width:5px;height:5px;background:var(--accent);border-radius:50%;box-shadow:0 0 6px var(--accent);}
+@keyframes fadeup{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:none;}}
+.hero h1{font-size:clamp(2.8rem,8vw,7.5rem);font-weight:700;line-height:1.0;letter-spacing:-.03em;margin-bottom:1.5rem;animation:fadeup .8s .1s both;}
+.hero h1 .line2{display:block;background:linear-gradient(135deg,#fff 0%,rgba(255,255,255,.4) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero h1 .accent-word{background:linear-gradient(135deg,var(--accent),#38bdf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-sub{font-size:clamp(.9rem,1.8vw,1.15rem);color:var(--muted2);max-width:480px;margin:0 auto 2rem;line-height:1.75;animation:fadeup .8s .2s both;}
+.hero-sub strong{color:var(--text);font-weight:500;}
+.hero-pills{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;margin-bottom:2.5rem;animation:fadeup .8s .25s both;}
+.pill{font-family:'Geist Mono',monospace;font-size:.62rem;letter-spacing:.08em;padding:.28rem .75rem;border-radius:100px;background:rgba(255,255,255,.04);border:1px solid var(--border2);color:var(--muted2);}
+.pill-logo{display:inline-flex;align-items:center;gap:.4rem;padding:.26rem .8rem .26rem .4rem;}
+.pll{display:inline-flex;align-items:center;}
+.pl-ic{height:16px;width:auto;display:block;border-radius:3px;}
+.hero-cta{display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;margin-bottom:4rem;animation:fadeup .8s .3s both;}
+.btn-hero-p{padding:.85rem 2rem;font-size:.82rem;font-weight:500;border-radius:8px;background:var(--text);color:#000;border:none;cursor:none;text-decoration:none;display:inline-flex;align-items:center;gap:.5rem;transition:all .2s;letter-spacing:.01em;}
+.btn-hero-p:hover{background:rgba(240,242,245,.9);transform:translateY(-1px);}
+.btn-hero-s{padding:.85rem 2rem;font-size:.82rem;font-weight:400;border-radius:8px;background:transparent;color:var(--muted2);border:1px solid var(--border2);cursor:none;text-decoration:none;display:inline-flex;align-items:center;gap:.5rem;transition:all .2s;}
+.btn-hero-s:hover{color:var(--text);border-color:rgba(255,255,255,.2);}
+.stats-bar{animation:fadeup .8s .4s both;display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden;max-width:820px;margin:0 auto;width:100%;position:relative;z-index:2;}
+.stat{background:rgba(8,10,15,.9);padding:1.25rem .75rem;text-align:center;transition:background .2s;}
+.stat:hover{background:rgba(14,165,233,.04);}
+.stat-v{font-family:'Geist Mono',monospace;font-size:clamp(1rem,2.5vw,1.4rem);font-weight:500;color:var(--text);display:block;line-height:1;margin-bottom:.35rem;}
+.stat-l{font-family:'Geist Mono',monospace;font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+@media(max-width:640px){.stats-bar{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:380px){.stats-bar{grid-template-columns:repeat(2,1fr);}}
+
+.ticker{background:var(--deep);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:.55rem 0;overflow:hidden;}
+.ticker-t{display:inline-flex;gap:4rem;animation:scroll 40s linear infinite;white-space:nowrap;}
+@keyframes scroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+.t-item{font-family:'Geist Mono',monospace;font-size:.62rem;letter-spacing:.06em;color:var(--muted);display:inline-flex;align-items:center;gap:.5rem;}
+.t-dot{width:4px;height:4px;border-radius:50%;background:var(--green);flex-shrink:0;}
+.t-sep{color:var(--border2);}
+
+section{padding:clamp(4rem,8vw,7rem) clamp(1.25rem,5vw,3rem);}
+.wrap{max-width:1160px;margin:0 auto;}
+.s-tag{font-family:'Geist Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:.85rem;display:block;}
+.s-h2{font-size:clamp(1.8rem,4vw,3.2rem);font-weight:600;letter-spacing:-.025em;line-height:1.15;margin-bottom:.85rem;}
+.s-lead{color:var(--muted2);font-size:clamp(.875rem,1.5vw,1rem);line-height:1.75;max-width:480px;}
+
+#features{background:var(--deep);}
+.bento{display:grid;grid-template-columns:repeat(12,1fr);grid-template-rows:auto;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-top:3rem;}
+.b-cell{background:var(--surface);padding:clamp(1.5rem,3vw,2.5rem);transition:background .3s;position:relative;overflow:hidden;}
+.b-cell::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(14,165,233,.05) 0%,transparent 60%);opacity:0;transition:opacity .3s;}
+.b-cell:hover{background:rgba(14,165,233,.03);}
+.b-cell:hover::after{opacity:1;}
+.b-1{grid-column:span 5;}.b-2{grid-column:span 7;}.b-3{grid-column:span 4;}.b-4{grid-column:span 4;}.b-5{grid-column:span 4;}.b-6{grid-column:span 6;}.b-7{grid-column:span 6;}
+@media(max-width:900px){.b-1,.b-2,.b-3,.b-4,.b-5,.b-6,.b-7{grid-column:span 12;}}
+.b-icon{margin-bottom:1.5rem;display:inline-flex;align-items:center;justify-content:center;width:48px;height:48px;background:linear-gradient(145deg,rgba(255,255,255,.06),rgba(255,255,255,.01));border:1px solid var(--border2);border-radius:13px;position:relative;overflow:hidden;transition:transform .4s cubic-bezier(.23,1,.32,1),box-shadow .4s ease;z-index:1;}
+.b-icon svg{width:24px;height:24px;display:block;position:relative;z-index:2;transition:transform .4s cubic-bezier(.23,1,.32,1);}
+.b-icon::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,var(--ic-glow,rgba(14,165,233,.35)),transparent 70%);opacity:.5;transition:opacity .4s ease;}
+.b-cell:hover .b-icon{transform:translateY(-3px) scale(1.06);box-shadow:0 10px 30px -8px var(--ic-glow,rgba(14,165,233,.4));}
+.b-cell:hover .b-icon::before{opacity:1;}
+.b-cell:hover .b-icon svg{transform:scale(1.1);}
+.b-title{font-size:1.05rem;font-weight:500;letter-spacing:-.01em;margin-bottom:.6rem;}
+.b-desc{font-size:.82rem;color:var(--muted2);line-height:1.7;}
+.b-badge{display:inline-block;margin-top:1.25rem;font-family:'Geist Mono',monospace;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);background:var(--accent-dim);border:1px solid rgba(14,165,233,.15);border-radius:100px;padding:.2rem .75rem;}
+.b-big-num{font-size:clamp(2.5rem,6vw,5rem);font-weight:700;letter-spacing:-.04em;color:var(--text);line-height:1;margin-bottom:.5rem;}
+.b-big-sub{font-family:'Geist Mono',monospace;font-size:.65rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;}
+
+#settlement{background:var(--void);}
+.settle-wrap{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,5vw,5rem);align-items:center;margin-top:3rem;}
+@media(max-width:720px){.settle-wrap{grid-template-columns:1fr;}}
+.settle-panel{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.75rem;position:relative;overflow:hidden;}
+.settle-panel::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:.5;}
+.settle-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;}
+.settle-title{font-family:'Geist Mono',monospace;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+.live-badge{display:flex;align-items:center;gap:.35rem;font-family:'Geist Mono',monospace;font-size:.58rem;letter-spacing:.1em;color:var(--green);}
+.live-badge::before{content:'';width:5px;height:5px;background:var(--green);border-radius:50%;animation:pulse 1.5s ease infinite;}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(16,185,129,.5);}50%{box-shadow:0 0 0 4px rgba(16,185,129,0);}}
+.tx-list{display:flex;flex-direction:column;}
+.tx-row{display:flex;align-items:center;gap:.85rem;padding:.9rem 0;border-bottom:1px solid var(--border);transition:opacity .3s;}
+.tx-row:last-child{border-bottom:none;}
+.tx-ind{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.tx-logo{width:30px;height:30px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;overflow:hidden;border:1px solid var(--border2);}
+.tx-logo svg{width:100%;height:100%;display:block;}
+.tx-ind.c1{background:var(--accent);box-shadow:0 0 6px var(--accent);}
+.tx-ind.c2{background:var(--green);box-shadow:0 0 6px var(--green);}
+.tx-ind.c3{background:var(--purple);box-shadow:0 0 6px var(--purple);}
+.tx-info{flex:1;}
+.tx-route{font-size:.72rem;color:var(--text);font-weight:400;}
+.tx-meta{font-family:'Geist Mono',monospace;font-size:.58rem;color:var(--muted);margin-top:.15rem;}
+.tx-amt{font-family:'Geist Mono',monospace;font-size:.78rem;color:var(--text);font-weight:500;white-space:nowrap;}
+.tx-speed{font-family:'Geist Mono',monospace;font-size:.6rem;color:var(--green);background:var(--green-dim);border:1px solid rgba(16,185,129,.15);padding:.15rem .5rem;border-radius:4px;white-space:nowrap;}
+.settle-checklist{list-style:none;display:flex;flex-direction:column;gap:1rem;}
+.settle-checklist li{display:flex;align-items:flex-start;gap:.85rem;font-size:.875rem;color:var(--muted2);line-height:1.6;}
+.ck{width:18px;height:18px;flex-shrink:0;background:var(--green-dim);border:1px solid rgba(16,185,129,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.55rem;color:var(--green);margin-top:2px;}
+
+#verticals{background:var(--deep);}
+.v-tabs{display:flex;flex-wrap:wrap;gap:.5rem;margin:2rem 0 1.75rem;}
+.v-tab{font-family:'Geist Mono',monospace;font-size:.63rem;letter-spacing:.1em;text-transform:uppercase;padding:.4rem .95rem;border-radius:100px;border:1px solid var(--border2);background:transparent;color:var(--muted2);cursor:none;transition:all .2s;}
+.v-tab.on,.v-tab:hover{background:var(--text);color:#000;border-color:var(--text);}
+.v-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:.75rem;}
+.v-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.5rem;transition:all .25s;}
+.v-card:hover{border-color:rgba(255,255,255,.12);transform:translateY(-2px);background:var(--surface2);}
+.v-ico{margin-bottom:1rem;display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;background:linear-gradient(145deg,rgba(255,255,255,.06),rgba(255,255,255,.01));border:1px solid var(--border2);border-radius:11px;position:relative;overflow:hidden;transition:transform .4s cubic-bezier(.23,1,.32,1),box-shadow .4s ease;}
+.v-ico svg{width:21px;height:21px;display:block;position:relative;z-index:2;}
+.v-ico::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,var(--vc-glow,rgba(14,165,233,.3)),transparent 70%);opacity:.5;transition:opacity .4s;}
+.v-card:hover .v-ico{transform:translateY(-3px) scale(1.08);box-shadow:0 8px 24px -8px var(--vc-glow,rgba(14,165,233,.4));}
+.v-card:hover .v-ico::before{opacity:1;}
+.v-n{font-size:.9rem;font-weight:500;margin-bottom:.35rem;letter-spacing:-.01em;}
+.v-d{font-size:.75rem;color:var(--muted2);line-height:1.55;}
+
+#activity{background:var(--void);}
+.act-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:3rem;}
+@media(max-width:600px){.act-grid{grid-template-columns:1fr;}}
+.act-panel{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.75rem;}
+.act-ph{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;}
+.act-pt{font-family:'Geist Mono',monospace;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+.act-val{font-size:clamp(2rem,5vw,3rem);font-weight:600;letter-spacing:-.03em;color:var(--text);line-height:1;margin-bottom:.35rem;}
+.act-sub{font-family:'Geist Mono',monospace;font-size:.6rem;color:var(--muted);letter-spacing:.06em;}
+
+#pricing{background:var(--deep);}
+.price-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-top:3rem;}
+.p-card{background:var(--surface);padding:2.25rem 2rem;display:flex;flex-direction:column;transition:background .2s;position:relative;}
+.p-card:hover{background:var(--surface2);}
+.p-card.featured{background:rgba(14,165,233,.05);}
+.p-featured-label{position:absolute;top:1.25rem;right:1.25rem;font-family:'Geist Mono',monospace;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:#000;background:var(--accent);padding:.2rem .65rem;border-radius:100px;}
+.p-name{font-family:'Geist Mono',monospace;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem;}
+.p-price{font-size:clamp(2.2rem,4vw,3rem);font-weight:600;letter-spacing:-.03em;line-height:1;margin-bottom:.3rem;}
+.p-price sub{font-size:.85rem;font-weight:300;color:var(--muted2);}
+.p-period{font-size:.78rem;color:var(--muted2);margin-bottom:1.75rem;}
+.p-features{list-style:none;flex:1;display:flex;flex-direction:column;gap:.7rem;margin-bottom:2rem;}
+.p-features li{font-size:.8rem;color:var(--muted2);display:flex;gap:.6rem;align-items:baseline;line-height:1.5;}
+.p-features li::before{content:'→';font-family:'Geist Mono',monospace;font-size:.65rem;color:var(--muted);flex-shrink:0;}
+.p-btn{display:block;text-align:center;padding:.8rem;border-radius:8px;font-family:'Geist',sans-serif;font-size:.75rem;font-weight:500;letter-spacing:.02em;text-decoration:none;cursor:none;transition:all .2s;border:none;}
+.p-btn.solid{background:var(--text);color:#000;}
+.p-btn.solid:hover{background:rgba(240,242,245,.9);}
+.p-btn.ghost{background:transparent;border:1px solid var(--border2);color:var(--muted2);}
+.p-btn.ghost:hover{border-color:rgba(255,255,255,.2);color:var(--text);}
+
+#cta{background:var(--void);position:relative;overflow:hidden;text-align:center;}
+#cta::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 80% at 50% 50%,rgba(14,165,233,.05) 0%,transparent 65%);}
+.cta-inner{position:relative;z-index:1;}
+.cta-actions{display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;margin-top:2.5rem;}
+.cta-link{display:inline-flex;align-items:center;gap:.6rem;padding:.75rem 1.5rem;border:1px solid var(--border2);border-radius:8px;text-decoration:none;color:var(--muted2);font-size:.75rem;font-weight:400;transition:all .2s;}
+.cta-link:hover{border-color:rgba(255,255,255,.2);color:var(--text);}
+.cta-link-ic{font-size:.9rem;}
+
+footer{padding:3rem clamp(1.25rem,4vw,3rem) 2.5rem;background:var(--void);border-top:1px solid var(--border);}
+.foot-in{max-width:1160px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1.5rem;}
+footer .brand-logo svg{width:30px;height:30px;}
+footer .brand-name .b1{font-size:.72rem;}
+footer .brand-name .b2{font-size:.55rem;}
+.foot-links{display:flex;flex-wrap:wrap;gap:1.5rem;}
+.foot-links a{font-family:'Geist Mono',monospace;font-size:.62rem;letter-spacing:.06em;color:var(--muted);text-decoration:none;transition:color .2s;}
+.foot-links a:hover{color:var(--muted2);}
+.foot-copy{font-family:'Geist Mono',monospace;font-size:.58rem;color:var(--muted);letter-spacing:.06em;}
+
+.r{opacity:0;transform:translateY(16px);transition:opacity .7s ease,transform .7s ease;}
+.r.in{opacity:1;transform:none;}
+.r.d1{transition-delay:.1s;}.r.d2{transition-delay:.2s;}.r.d3{transition-delay:.3s;}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="sgBorder" x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#22d3ee"/><stop offset="1" stop-color="#8b5cf6"/>
+    </linearGradient>
+    <linearGradient id="sgFill" x1="10" y1="10" x2="38" y2="38" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1a2535"/><stop offset="1" stop-color="#0a0e16"/>
+    </linearGradient>
+    <linearGradient id="icBolt" x1="0" y1="0" x2="24" y2="24"><stop offset="0" stop-color="#facc15"/><stop offset="1" stop-color="#f97316"/></linearGradient>
+    <linearGradient id="icShield" x1="0" y1="0" x2="24" y2="24"><stop offset="0" stop-color="#34d399"/><stop offset="1" stop-color="#059669"/></linearGradient>
+    <linearGradient id="icPlug" x1="0" y1="0" x2="24" y2="24"><stop offset="0" stop-color="#22d3ee"/><stop offset="1" stop-color="#3b82f6"/></linearGradient>
+    <linearGradient id="icGlobe" x1="0" y1="0" x2="24" y2="24"><stop offset="0" stop-color="#818cf8"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient>
+    <linearGradient id="icChart" x1="0" y1="0" x2="24" y2="24"><stop offset="0" stop-color="#2dd4bf"/><stop offset="1" stop-color="#0ea5e9"/></linearGradient>
+    <linearGradient id="icLock" x1="0" y1="0" x2="24" y2="24"><stop offset="0" stop-color="#f472b6"/><stop offset="1" stop-color="#a855f7"/></linearGradient>
+    <linearGradient id="vGame" x1="0" y1="0" x2="24" y2="24"><stop offset="0" stop-color="#fb7185"/><stop offset="1" stop-color="#f59e0b"/></linearGradient>
+    <linearGradient id="vBank" x1="0" y1="0" x2="24" y2="24"><stop offset="0" stop-color="#38bdf8"/><stop offset="1" stop-color="#6366f1"/></linearGradient>
+    <linearGradient id="vSaas" x1="0" y1="0" x2="24" y2="24"><stop offset="0" stop-color="#a78bfa"/><stop offset="1" stop-color="#ec4899"/></linearGradient>
+    <linearGradient id="vCart" x1="0" y1="0" x2="24" y2="24"><stop offset="0" stop-color="#34d399"/><stop offset="1" stop-color="#0ea5e9"/></linearGradient>
+    <linearGradient id="vEdu" x1="0" y1="0" x2="24" y2="24"><stop offset="0" stop-color="#fbbf24"/><stop offset="1" stop-color="#f97316"/></linearGradient>
+    <linearGradient id="vChain" x1="0" y1="0" x2="24" y2="24"><stop offset="0" stop-color="#22d3ee"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient>
+    <linearGradient id="vBox" x1="0" y1="0" x2="24" y2="24"><stop offset="0" stop-color="#fb923c"/><stop offset="1" stop-color="#f43f5e"/></linearGradient>
+    <linearGradient id="vCoin" x1="0" y1="0" x2="24" y2="24"><stop offset="0" stop-color="#fcd34d"/><stop offset="1" stop-color="#f59e0b"/></linearGradient>
+  </defs>
+</svg>
+
+<div class="cursor" id="cur"></div>
+<div class="cursor-ring" id="ring"></div>
+
+<nav>
+  <a href="#" class="brand-logo">
+    <svg viewBox="0 0 48 48" fill="none"><rect x="3" y="3" width="42" height="42" rx="13" stroke="url(#sgBorder)" stroke-width="2.5" stroke-dasharray="5 4" fill="none"/><rect x="12" y="12" width="24" height="24" rx="7" fill="url(#sgFill)" stroke="#22d3ee" stroke-width="1.5"/><path d="M17.5 24.5 L22 29 L31 18.5" stroke="#22d3ee" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+    <span class="brand-name"><span class="b1">SYNDICATE</span><span class="b2">GATEWAY</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#features">Platform</a></li>
+    <li><a href="#verticals">Ecosystem</a></li>
+    <li><a href="#activity">Developers</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+  </ul>
+  <div class="nav-r">
+    <a href="signup.html" class="btn-nav btn-ghost">Connect Wallet</a>
+    <a href="login.html" class="btn-nav btn-solid">Launch App ↗</a>
+  </div>
+  <button class="ham" id="ham"><span></span><span></span><span></span></button>
+</nav>
+<div class="mob-menu" id="mobMenu">
+  <a href="#features" onclick="cm()">Platform</a>
+  <a href="#verticals" onclick="cm()">Ecosystem</a>
+  <a href="#activity" onclick="cm()">Developers</a>
+  <a href="#pricing" onclick="cm()">Pricing</a>
+  <a href="login.html" class="btn-nav btn-solid">Launch App</a>
+</div>
+
+<div class="ticker" style="margin-top:64px;">
+  <div class="ticker-t" id="tk"></div>
+</div>
+
+<section class="hero">
+  <div class="hero-aurora"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-emblem">
+      <svg viewBox="0 0 48 48" fill="none" style="width:100%;height:auto;"><rect x="3" y="3" width="42" height="42" rx="13" stroke="url(#sgBorder)" stroke-width="2.5" stroke-dasharray="5 4" fill="none"/><rect x="12" y="12" width="24" height="24" rx="7" fill="url(#sgFill)" stroke="#22d3ee" stroke-width="1.5"/><path d="M17.5 24.5 L22 29 L31 18.5" stroke="#22d3ee" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+    </div>
+    <div class="hero-eyebrow"><span class="hero-eyebrow-dot"></span>Powerful by design · Since 2019</div>
+    <h1>The world speaks<br/><span class="line2">in <span class="accent-word">payments.</span></span></h1>
+    <p class="hero-sub">A high-performance gateway for instant transactions, diverse verticals, and emerging markets. One integration. <strong>Live in 7 days.</strong></p>
+    <div class="hero-pills">
+      <!-- UPI -->
+      <span class="pill pill-logo" style="padding-right:.55rem;"><svg viewBox="0 0 48 24" class="pl-ic" style="height:15px;"><path d="M6 4 L13 4 L9 20 L2 20 Z" fill="#097939"/><path d="M12 4 L19 4 L15 20 L8 20 Z" fill="#ED752E"/><text x="22" y="17" font-family="Geist,sans-serif" font-weight="700" font-size="13" fill="#fff">UPI</text></svg></span>
+      <!-- M-Pesa -->
+      <span class="pill pill-logo"><svg viewBox="0 0 22 22" class="pl-ic"><circle cx="11" cy="11" r="10" fill="#E30613"/><path d="M6 15 V8 l3 4 3-4 v7" stroke="#fff" stroke-width="1.6" fill="none" stroke-linejoin="round"/><circle cx="15.5" cy="8" r="1.4" fill="#fff"/></svg>M-Pesa</span>
+      <!-- Fawry -->
+      <span class="pill pill-logo"><svg viewBox="0 0 22 22" class="pl-ic"><rect width="22" height="22" rx="5" fill="#FFD400"/><text x="11" y="15" text-anchor="middle" font-family="Geist,sans-serif" font-weight="800" font-size="11" fill="#00529B">F</text></svg>Fawry</span>
+      <!-- bKash -->
+      <span class="pill pill-logo"><img class="pl-ic" id="bkashPill" alt="bKash" style="height:15px;width:auto;"/>bKash</span>
+      <!-- PIX -->
+      <span class="pill pill-logo"><svg viewBox="0 0 22 22" class="pl-ic"><path d="M11 2 L20 11 L11 20 L2 11 Z" fill="#32BCAD"/><path d="M11 6.5 L15.5 11 L11 15.5 L6.5 11 Z" fill="#fff"/></svg>PIX</span>
+      <!-- GCash -->
+      <span class="pill pill-logo"><svg viewBox="0 0 22 22" class="pl-ic"><circle cx="11" cy="11" r="10" fill="#0070E0"/><path d="M14.5 8 a5 5 0 1 0 0 6 h-3.5 v-2 h5.5 v2 a7 7 0 1 1 0 -6 z" fill="#fff"/></svg>GCash</span>
+      <!-- SEPA -->
+      <span class="pill pill-logo"><svg viewBox="0 0 22 22" class="pl-ic"><circle cx="11" cy="11" r="10" fill="#003399"/><text x="11" y="15" text-anchor="middle" font-family="Geist,sans-serif" font-weight="800" font-size="9" fill="#FFCC00">€</text></svg>SEPA</span>
+    </div>
+    <div class="hero-cta">
+      <a href="signup.html" class="btn-hero-p">Start Building <span style="opacity:.5">→</span></a>
+      <a href="#" class="btn-hero-s">Read Docs</a>
+    </div>
+    <div class="stats-bar">
+      <div class="stat"><span class="stat-v" id="sv-users">320K+</span><span class="stat-l">Monthly Users</span></div>
+      <div class="stat"><span class="stat-v">100+</span><span class="stat-l">Payment Rails</span></div>
+      <div class="stat"><span class="stat-v">T+0</span><span class="stat-l">Settlement</span></div>
+      <div class="stat"><span class="stat-v">14</span><span class="stat-l">Live Chains</span></div>
+      <div class="stat"><span class="stat-v">7d</span><span class="stat-l">Go-Live</span></div>
+      <div class="stat"><span class="stat-v">99.999%</span><span class="stat-l">Uptime SLA</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="features">
+  <div class="wrap">
+    <span class="s-tag r">Key Capabilities</span>
+    <h2 class="s-h2 r d1">Built for every market.</h2>
+    <p class="s-lead r d2">Enterprise-grade infrastructure for speed, compliance, and global scale — without the complexity.</p>
+    <div class="bento r d3">
+      <div class="b-cell b-1" style="--ic-glow:rgba(250,204,21,.4);"><div class="b-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M13 2 L4 14 h6 l-1 8 9-12 h-6 z" fill="url(#icBolt)" stroke="url(#icBolt)" stroke-width="1" stroke-linejoin="round"/></svg></div><div class="b-title">Instant T+0 Finality</div><p class="b-desc">Sub-second settlement with zero-knowledge proofs. No confirmation delays, no holds — money moves the moment you send it.</p><span class="b-badge">ZK-Powered</span></div>
+      <div class="b-cell b-2" style="display:flex;flex-direction:column;justify-content:flex-end;--ic-glow:rgba(52,211,153,.4);"><div class="b-big-num">$250M</div><div class="b-big-sub" style="margin-bottom:1rem;">Insurance coverage</div><div class="b-icon" style="margin-bottom:.5rem;"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2 L20 5 v6 c0 5-3.5 8.5-8 11-4.5-2.5-8-6-8-11 V5 z" fill="url(#icShield)" fill-opacity=".25" stroke="url(#icShield)" stroke-width="1.5" stroke-linejoin="round"/><path d="M8.5 12 l2.5 2.5 L15.5 9" stroke="url(#icShield)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></div><div class="b-title">PCI DSS + AI Anti-Fraud</div><p class="b-desc">SOC 2 Type II compliant, 3D-Secure 2.0, audited smart contracts, and AI-driven fraud detection at every layer.</p><span class="b-badge">Enterprise-grade</span></div>
+      <div class="b-cell b-3" style="--ic-glow:rgba(34,211,238,.4);"><div class="b-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M9 2 v4 M15 2 v4" stroke="url(#icPlug)" stroke-width="2" stroke-linecap="round"/><rect x="7" y="6" width="10" height="7" rx="2" fill="url(#icPlug)" fill-opacity=".25" stroke="url(#icPlug)" stroke-width="1.8"/><path d="M12 13 v5 a3 3 0 0 1-3 3 H7" stroke="url(#icPlug)" stroke-width="2" stroke-linecap="round" fill="none"/></svg></div><div class="b-title">Modular Integration</div><p class="b-desc">API, hosted page, or iframe. Plug-and-play modules across 14+ chains.</p><span class="b-badge">20+ Integrations</span></div>
+      <div class="b-cell b-4" style="--ic-glow:rgba(139,92,246,.4);"><div class="b-icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9.5" stroke="url(#icGlobe)" stroke-width="1.8" fill="url(#icGlobe)" fill-opacity=".15"/><ellipse cx="12" cy="12" rx="4" ry="9.5" stroke="url(#icGlobe)" stroke-width="1.5"/><path d="M2.5 12 h19 M4 7 h16 M4 17 h16" stroke="url(#icGlobe)" stroke-width="1.3"/></svg></div><div class="b-title">Global Tax Compliance</div><p class="b-desc">Crypto-to-fiat settlements with tax compliance in every API call. No reconciliation.</p><span class="b-badge">Auto-Compliant</span></div>
+      <div class="b-cell b-5" style="--ic-glow:rgba(45,212,191,.4);"><div class="b-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M3 21 h18" stroke="url(#icChart)" stroke-width="1.8" stroke-linecap="round"/><rect x="4" y="12" width="3.5" height="7" rx="1" fill="url(#icChart)" fill-opacity=".4"/><rect x="10" y="7" width="3.5" height="12" rx="1" fill="url(#icChart)" fill-opacity=".7"/><rect x="16" y="3" width="3.5" height="16" rx="1" fill="url(#icChart)"/></svg></div><div class="b-title">Real-Time Analytics</div><p class="b-desc">Live dashboards with conversion funnels across all markets and channels.</p><span class="b-badge">Live Dashboard</span></div>
+      <div class="b-cell b-6" style="--ic-glow:rgba(168,85,247,.4);"><div class="b-icon"><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="10" width="16" height="11" rx="3" fill="url(#icLock)" fill-opacity=".25" stroke="url(#icLock)" stroke-width="1.8"/><path d="M8 10 V7 a4 4 0 0 1 8 0 v3" stroke="url(#icLock)" stroke-width="1.8" fill="none"/><circle cx="12" cy="15" r="1.8" fill="url(#icLock)"/></svg></div><div class="b-title">White-Label Ready</div><p class="b-desc">Full white-label solutions with custom AML rules, dedicated 24/7 support, and SLA guarantees for enterprise deployments.</p><span class="b-badge">Enterprise</span></div>
+      <div class="b-cell b-7" style="background:rgba(14,165,233,.03);"><div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;"><div><div class="b-big-num" style="font-size:clamp(1.8rem,4vw,3rem);color:var(--accent);">99.999%</div><div class="b-big-sub">Uptime SLA</div></div><div style="width:1px;height:60px;background:var(--border);flex-shrink:0;"></div><div><div class="b-big-num" style="font-size:clamp(1.8rem,4vw,3rem);">7 days</div><div class="b-big-sub">Average go-live</div></div><div style="width:1px;height:60px;background:var(--border);flex-shrink:0;"></div><div><div class="b-big-num" style="font-size:clamp(1.8rem,4vw,3rem);">14</div><div class="b-big-sub">Live blockchains</div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="settlement">
+  <div class="wrap">
+    <div class="settle-wrap">
+      <div>
+        <span class="s-tag r">Settlement Speed</span>
+        <h2 class="s-h2 r d1">T+0.<br/>No waiting. No holds.</h2>
+        <ul class="settle-checklist r d2" style="margin-top:1.75rem;">
+          <li><span class="ck">✓</span>Instant payouts to any wallet or bank account globally</li>
+          <li><span class="ck">✓</span>Transparent limits with no hidden fees or delayed releases</li>
+          <li><span class="ck">✓</span>Zero holds — funds clear before confirmation arrives</li>
+          <li><span class="ck">✓</span>Global reach across 100+ local payment rails simultaneously</li>
+        </ul>
+        <div style="margin-top:2.25rem;" class="r d3"><a href="login.html" class="btn-hero-p">Connect Now →</a></div>
+      </div>
+      <div class="settle-panel r d2">
+        <div class="settle-header"><span class="settle-title">Live Transactions</span><span class="live-badge">LIVE</span></div>
+        <div class="tx-list" id="txList">
+          <div class="tx-row"><span class="tx-ind c1"></span><div class="tx-info"><div class="tx-route">UPI · Mumbai → Singapore</div><div class="tx-meta">via Syndicate Rail #4</div></div><span class="tx-amt">$4,200</span><span class="tx-speed">0.4s</span></div>
+          <div class="tx-row"><span class="tx-ind c2"></span><div class="tx-info"><div class="tx-route">M-Pesa · Nairobi → London</div><div class="tx-meta">via Syndicate Rail #7</div></div><span class="tx-amt">$1,880</span><span class="tx-speed">0.6s</span></div>
+          <div class="tx-row"><span class="tx-ind c3"></span><div class="tx-info"><div class="tx-route">bKash · Dhaka → Dubai</div><div class="tx-meta">via Syndicate Rail #2</div></div><span class="tx-amt">$3,400</span><span class="tx-speed">0.5s</span></div>
+          <div class="tx-row"><span class="tx-ind c1"></span><div class="tx-info"><div class="tx-route">PIX · São Paulo → Miami</div><div class="tx-meta">via Syndicate Rail #9</div></div><span class="tx-amt">$9,100</span><span class="tx-speed">0.3s</span></div>
+          <div class="tx-row"><span class="tx-ind c2"></span><div class="tx-info"><div class="tx-route">GCash · Manila → Toronto</div><div class="tx-meta">via Syndicate Rail #5</div></div><span class="tx-amt">$2,670</span><span class="tx-speed">0.7s</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="verticals">
+  <div class="wrap">
+    <span class="s-tag r">Ecosystem</span>
+    <h2 class="s-h2 r d1">One gateway.<br/>Every industry.</h2>
+    <div class="v-tabs r d2">
+      <button class="v-tab on" onclick="fv('all',this)">All</button>
+      <button class="v-tab" onclick="fv('finance',this)">Finance</button>
+      <button class="v-tab" onclick="fv('commerce',this)">Commerce</button>
+      <button class="v-tab" onclick="fv('web3',this)">Web3</button>
+    </div>
+    <div class="v-grid" id="vGrid">
+      <div class="v-card" data-c="finance" style="--vc-glow:rgba(251,113,133,.35);"><span class="v-ico"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" fill="url(#vGame)" fill-opacity=".2" stroke="url(#vGame)" stroke-width="1.6"/><circle cx="12" cy="12" r="3.2" fill="url(#vGame)"/><circle cx="12" cy="5.5" r="1.1" fill="url(#vGame)"/><circle cx="12" cy="18.5" r="1.1" fill="url(#vGame)"/><circle cx="5.5" cy="12" r="1.1" fill="url(#vGame)"/><circle cx="18.5" cy="12" r="1.1" fill="url(#vGame)"/></svg></span><div class="v-n">iGaming</div><p class="v-d">High-volume payouts with real-time compliance and 100+ payment methods.</p></div>
+      <div class="v-card" data-c="finance" style="--vc-glow:rgba(56,189,248,.35);"><span class="v-ico"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3 L21 8 H3 Z" fill="url(#vBank)" fill-opacity=".3" stroke="url(#vBank)" stroke-width="1.5" stroke-linejoin="round"/><path d="M5 8 v9 M9.5 8 v9 M14.5 8 v9 M19 8 v9" stroke="url(#vBank)" stroke-width="1.7"/><path d="M3 20 h18" stroke="url(#vBank)" stroke-width="1.8" stroke-linecap="round"/></svg></span><div class="v-n">Fintech</div><p class="v-d">Banking-grade rails for neobanks, lenders, and remittance platforms.</p></div>
+      <div class="v-card" data-c="commerce" style="--vc-glow:rgba(167,139,250,.35);"><span class="v-ico"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="7" width="18" height="13" rx="2.5" fill="url(#vSaas)" fill-opacity=".2" stroke="url(#vSaas)" stroke-width="1.6"/><path d="M8.5 7 V5.5 a2 2 0 0 1 2-2 h3 a2 2 0 0 1 2 2 V7" stroke="url(#vSaas)" stroke-width="1.6" fill="none"/><path d="M3 12 h18" stroke="url(#vSaas)" stroke-width="1.4"/></svg></span><div class="v-n">SaaS</div><p class="v-d">Recurring billing, dunning logic, and multi-currency subscriptions.</p></div>
+      <div class="v-card" data-c="commerce" style="--vc-glow:rgba(52,211,153,.35);"><span class="v-ico"><svg viewBox="0 0 24 24" fill="none"><path d="M3 4 h2.5 l2 12 h10 l2-8 H7" stroke="url(#vCart)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" fill="url(#vCart)" fill-opacity=".15"/><circle cx="9" cy="20" r="1.6" fill="url(#vCart)"/><circle cx="17" cy="20" r="1.6" fill="url(#vCart)"/></svg></span><div class="v-n">Marketplaces</div><p class="v-d">Split payments, escrow, and instant seller payouts at scale.</p></div>
+      <div class="v-card" data-c="commerce" style="--vc-glow:rgba(251,191,36,.35);"><span class="v-ico"><svg viewBox="0 0 24 24" fill="none"><path d="M12 4 L22 9 L12 14 L2 9 Z" fill="url(#vEdu)" fill-opacity=".25" stroke="url(#vEdu)" stroke-width="1.5" stroke-linejoin="round"/><path d="M6 11 v4 c0 1.5 2.7 3 6 3 s6-1.5 6-3 v-4" stroke="url(#vEdu)" stroke-width="1.6" fill="none"/><path d="M22 9 v5" stroke="url(#vEdu)" stroke-width="1.6" stroke-linecap="round"/></svg></span><div class="v-n">Education</div><p class="v-d">Fee collection across 190+ countries with local payment methods.</p></div>
+      <div class="v-card" data-c="web3" style="--vc-glow:rgba(34,211,238,.35);"><span class="v-ico"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="9" width="9" height="6" rx="3" fill="url(#vChain)" fill-opacity=".2" stroke="url(#vChain)" stroke-width="1.7" transform="rotate(-45 7.5 12)"/><rect x="12" y="9" width="9" height="6" rx="3" fill="url(#vChain)" fill-opacity=".2" stroke="url(#vChain)" stroke-width="1.7" transform="rotate(-45 16.5 12)"/><path d="M9.5 14.5 L14.5 9.5" stroke="url(#vChain)" stroke-width="1.7" stroke-linecap="round"/></svg></span><div class="v-n">DeFi</div><p class="v-d">On-chain settlement with off-ramp rails to 100+ local currencies.</p></div>
+      <div class="v-card" data-c="commerce" style="--vc-glow:rgba(251,146,60,.35);"><span class="v-ico"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3 L20 7 V17 L12 21 L4 17 V7 Z" fill="url(#vBox)" fill-opacity=".2" stroke="url(#vBox)" stroke-width="1.6" stroke-linejoin="round"/><path d="M4 7 L12 11 L20 7 M12 11 V21" stroke="url(#vBox)" stroke-width="1.6" stroke-linejoin="round"/></svg></span><div class="v-n">E-Commerce</div><p class="v-d">Checkout optimization with local methods that convert 3× more.</p></div>
+      <div class="v-card" data-c="web3" style="--vc-glow:rgba(252,211,77,.35);"><span class="v-ico"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" fill="url(#vCoin)" fill-opacity=".2" stroke="url(#vCoin)" stroke-width="1.6"/><path d="M12 6.5 v11 M9.5 9 h4 a2 2 0 0 1 0 4 H9.5 h4.5" stroke="url(#vCoin)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></span><div class="v-n">Crypto</div><p class="v-d">Crypto-to-fiat and fiat-to-crypto bridges with compliance built-in.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="activity">
+  <div class="wrap">
+    <span class="s-tag r">Live Network</span>
+    <h2 class="s-h2 r d1">The network, right now.</h2>
+    <div class="act-grid">
+      <div class="act-panel r d1"><div class="act-ph"><span class="act-pt">Transactions Today</span><span class="live-badge">LIVE</span></div><div class="act-val" id="ac-tx">—</div><div class="act-sub">processed · 0 failures</div></div>
+      <div class="act-panel r d2"><div class="act-ph"><span class="act-pt">Volume (24h)</span><span class="live-badge">LIVE</span></div><div class="act-val" id="ac-vol">—</div><div class="act-sub">across all rails · all currencies</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="wrap">
+    <span class="s-tag r">Pricing</span>
+    <h2 class="s-h2 r d1">Simple. Transparent.</h2>
+    <p class="s-lead r d2">Instant crypto-to-fiat settlements with global tax compliance built into every API call.</p>
+    <div class="price-grid r d3">
+      <div class="p-card"><div class="p-name">Starter</div><div class="p-price">$0 <sub>/mo</sub></div><div class="p-period">Up to $10k volume</div><ul class="p-features"><li>Up to $10,000 monthly volume</li><li>Standard API access</li><li>Community support</li><li>Core payment rails</li></ul><a href="#" class="p-btn ghost">Get Started</a></div>
+      <div class="p-card featured"><div class="p-featured-label">Popular</div><div class="p-name">Professional</div><div class="p-price">$49 <sub>/mo</sub></div><div class="p-period">Unlimited volume</div><ul class="p-features"><li>Unlimited monthly volume</li><li>Webhook automation</li><li>Priority settlements</li><li>Advanced analytics</li></ul><a href="#" class="p-btn solid">Start Free Trial</a></div>
+      <div class="p-card"><div class="p-name">Enterprise</div><div class="p-price" style="font-size:1.75rem;">Custom</div><div class="p-period">Tailored to your scale</div><ul class="p-features"><li>White-label solutions</li><li>24/7 dedicated support</li><li>Custom AML rules</li><li>SLA guarantees</li></ul><a href="https://t.me/syndicategateway" target="_blank" class="p-btn ghost">Contact Sales</a></div>
+    </div>
+  </div>
+</section>
+
+<section id="cta">
+  <div class="wrap cta-inner">
+    <span class="s-tag r" style="display:block;text-align:center;">Your next market is one integration away</span>
+    <h2 class="s-h2 r d1" style="text-align:center;max-width:580px;margin:0 auto .85rem;font-size:clamp(1.6rem,3.5vw,2.8rem);">We don't just process transactions —<br/><span style="color:var(--accent);">we translate them into growth.</span></h2>
+    <p class="s-lead r d2" style="margin:0 auto;text-align:center;">T+0 settlements · PCI DSS + AI anti-fraud · Live in 7 days</p>
+    <div class="cta-actions r d3">
+      <a href="https://t.me/syndicategateway" class="cta-link" target="_blank"><span class="cta-link-ic">📡</span>Connect via Telegram</a>
+      <a href="https://t.me/syndicategatewayagent_bot" class="cta-link" target="_blank"><span class="cta-link-ic">🤝</span>Become an Agent</a>
+      <a href="login.html" class="btn-hero-p">Launch App ↗</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-in">
+    <a href="#" class="brand-logo">
+      <svg viewBox="0 0 48 48" fill="none"><rect x="3" y="3" width="42" height="42" rx="13" stroke="url(#sgBorder)" stroke-width="2.5" stroke-dasharray="5 4" fill="none"/><rect x="12" y="12" width="24" height="24" rx="7" fill="url(#sgFill)" stroke="#22d3ee" stroke-width="1.5"/><path d="M17.5 24.5 L22 29 L31 18.5" stroke="#22d3ee" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+      <span class="brand-name"><span class="b1">SYNDICATE</span><span class="b2">GATEWAY</span></span>
+    </a>
+    <div class="foot-links">
+      <a href="#features">Platform</a>
+      <a href="#verticals">Ecosystem</a>
+      <a href="#activity">Developers</a>
+      <a href="#pricing">Pricing</a>
+      <a href="https://x.com/syndicateonbase" target="_blank">Twitter</a>
+      <a href="https://t.me/syndicategateway" target="_blank">Telegram</a>
+    </div>
+    <div class="foot-copy">© 2026 SYNDICATE GATEWAY · ALL RIGHTS RESERVED</div>
+  </div>
+</footer>
+
+<script>
+const cur=document.getElementById('cur'),ring=document.getElementById('ring');
+const isPointer=window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+if(isPointer){
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';},{passive:true});
+function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing);}animRing();
+}
+if(isPointer){document.querySelectorAll('a,button,.v-card,.b-cell').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.style.transform='translate(-50%,-50%) scale(2.5)';ring.style.transform='translate(-50%,-50%) scale(1.5)';ring.style.opacity='.3';});
+  el.addEventListener('mouseleave',()=>{cur.style.transform='translate(-50%,-50%) scale(1)';ring.style.transform='translate(-50%,-50%) scale(1)';ring.style.opacity='1';});
+});}
+const ham=document.getElementById('ham'),mob=document.getElementById('mobMenu');
+ham.addEventListener('click',()=>{ham.classList.toggle('open');mob.classList.toggle('show');});
+function cm(){ham.classList.remove('open');mob.classList.remove('show');}
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');});},{threshold:.1});
+document.querySelectorAll('.r').forEach(el=>io.observe(el));
+const tkData=['UPI · ₹42,500','M-Pesa · KES 108,200','Fawry · EGP 91,300','bKash · ৳63,100','PIX · R$74,600','SEPA · €28,900','GCash · ₱55,200','T+0 Settlement','14 Live Chains','99.999% Uptime'];
+let th='';for(let i=0;i<2;i++)tkData.forEach(d=>th+=`<span class="t-item"><span class="t-dot"></span>${d}</span><span class="t-sep">·</span>`);
+document.getElementById('tk').innerHTML=th;
+let tx=184320,vol=4280000;
+function fmt(n){return n>=1e6?(n/1e6).toFixed(2)+'M':n>=1e3?(n/1e3).toFixed(1)+'K':n;}
+function fmtM(n){return n>=1e6?'$'+(n/1e6).toFixed(2)+'M':'$'+(n/1e3).toFixed(1)+'K';}
+function tick(){tx+=Math.floor(Math.random()*12+3);vol+=Math.floor(Math.random()*4500+500);document.getElementById('ac-tx').textContent=fmt(tx);document.getElementById('ac-vol').textContent=fmtM(vol);}
+tick();
+let tickTimer=setInterval(tick,2800),rotTimer=null;
+document.addEventListener('visibilitychange',()=>{
+  if(document.hidden){clearInterval(tickTimer);clearInterval(rotTimer);tickTimer=rotTimer=null;}
+  else{if(!tickTimer)tickTimer=setInterval(tick,2800);if(!rotTimer)rotTimer=rotTimer=setInterval(rotateTx,2200);}
+});
+const brandLogo={
+  upi:`<svg viewBox="0 0 30 30"><rect width="30" height="30" fill="#fff"/><path d="M7 8 L12 8 L9 22 L4 22 Z" fill="#097939"/><path d="M11 8 L16 8 L13 22 L8 22 Z" fill="#ED752E"/></svg>`,
+  mpesa:`<svg viewBox="0 0 30 30"><rect width="30" height="30" fill="#E30613"/><path d="M8 21 V11 l4 5 4-5 v10" stroke="#fff" stroke-width="1.8" fill="none" stroke-linejoin="round"/><circle cx="21" cy="11" r="1.8" fill="#fff"/></svg>`,
+  bkash:`<img src="data:image/png;base64,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" alt="bKash" style="width:100%;height:100%;object-fit:contain;background:#fff;padding:3px;"/>`,
+  pix:`<svg viewBox="0 0 30 30"><rect width="30" height="30" fill="#0e1a1a"/><path d="M15 5 L25 15 L15 25 L5 15 Z" fill="#32BCAD"/><path d="M15 10 L20 15 L15 20 L10 15 Z" fill="#fff"/></svg>`,
+  gcash:`<svg viewBox="0 0 30 30"><rect width="30" height="30" fill="#0070E0"/><path d="M19 11 a5.5 5.5 0 1 0 0 8 h-4 v-2.5 h6.5 v2.5 a8 8 0 1 1 0-8 z" fill="#fff"/></svg>`,
+  fawry:`<svg viewBox="0 0 30 30"><rect width="30" height="30" fill="#FFD400"/><text x="15" y="21" text-anchor="middle" font-family="Geist,sans-serif" font-weight="800" font-size="15" fill="#00529B">F</text></svg>`,
+  wave:`<svg viewBox="0 0 30 30"><rect width="30" height="30" fill="#1DC8FF"/><path d="M4 17 q4-6 7 0 t7 0 t7 0" stroke="#003" stroke-width="2" fill="none" stroke-linecap="round"/></svg>`,
+  sepa:`<svg viewBox="0 0 30 30"><rect width="30" height="30" fill="#003399"/><text x="15" y="21" text-anchor="middle" font-family="Geist,sans-serif" font-weight="800" font-size="14" fill="#FFCC00">€</text></svg>`
+};
+
+// bKash পিলে লোগো বসাও (brandLogo থেকে — ডুপ্লিকেশন এড়াতে)
+(function(){const p=document.getElementById('bkashPill');if(p&&brandLogo.bkash){const m=brandLogo.bkash.match(/src="([^"]+)"/);if(m)p.src=m[1];}})();
+const txData=[{r:'UPI · Mumbai → Singapore',m:'via Syndicate Rail #4',a:'$4,200',s:'0.4s',b:'upi'},{r:'M-Pesa · Nairobi → London',m:'via Syndicate Rail #7',a:'$1,880',s:'0.6s',b:'mpesa'},{r:'bKash · Dhaka → Dubai',m:'via Syndicate Rail #2',a:'$3,400',s:'0.5s',b:'bkash'},{r:'PIX · São Paulo → Miami',m:'via Syndicate Rail #9',a:'$9,100',s:'0.3s',b:'pix'},{r:'GCash · Manila → Toronto',m:'via Syndicate Rail #5',a:'$2,670',s:'0.7s',b:'gcash'},{r:'Fawry · Cairo → Paris',m:'via Syndicate Rail #3',a:'$5,230',s:'0.4s',b:'fawry'},{r:'Wave · Dakar → Amsterdam',m:'via Syndicate Rail #6',a:'$890',s:'0.8s',b:'wave'},{r:'SEPA · Berlin → New York',m:'via Syndicate Rail #1',a:'$18,400',s:'0.2s',b:'sepa'}];
+let txi=0;
+function txRowHtml(t){return `<div class="tx-row"><span class="tx-logo">${brandLogo[t.b]||''}</span><div class="tx-info"><div class="tx-route">${t.r}</div><div class="tx-meta">${t.m}</div></div><span class="tx-amt">${t.a}</span><span class="tx-speed">${t.s}</span></div>`;}
+(function seedTx(){const list=document.getElementById('txList');if(list)list.innerHTML=txData.slice(0,5).map(txRowHtml).join('');txi=5;})();
+function rotateTx(){const list=document.getElementById('txList');if(!list)return;const rows=list.querySelectorAll('.tx-row');if(!rows.length)return;const t=txData[txi%txData.length];rows[0].style.cssText='opacity:0;transition:opacity .3s;';setTimeout(()=>{rows[0].remove();const wrap=document.createElement('div');wrap.innerHTML=txRowHtml(t);const el=wrap.firstChild;el.style.opacity='0';list.appendChild(el);setTimeout(()=>{el.style.transition='opacity .4s';el.style.opacity='1';},20);txi++;},300);}
+rotTimer=setInterval(rotateTx,2200);
+function fv(cat,btn){document.querySelectorAll('.v-tab').forEach(t=>t.classList.remove('on'));btn.classList.add('on');document.querySelectorAll('.v-card').forEach(c=>{c.style.display=(cat==='all'||c.dataset.c===cat)?'':'none';});}
+</script>
+</body>
+                                                                                                          </html>
